@@ -1,31 +1,26 @@
 #!/bin/bash
 set -e
 
-# -----------------------------
-# Real-time logging
-# -----------------------------
-LOGFILE="$HOME/post-create.log"
-exec > >(tee -a "$LOGFILE") 2>&1
-echo "[INFO] Logging to $LOGFILE"
-echo "[INFO] Starting post-create script..."
-
-# Prevent ALL interactive prompts
+# Prevent ALL interactive prompts (keyboard, timezone, wireshark, etc.)
 export DEBIAN_FRONTEND=noninteractive
 
-echo "[STEP] Cleaning Yarn repo..."
+# Preseed Wireshark to avoid the yes/no prompt
+echo "wireshark-common wireshark-common/install-setuid boolean false" | sudo debconf-set-selections
+
+# Fix Yarn repo
 sudo rm -f /etc/apt/sources.list.d/yarn.list
 sudo rm -f /etc/apt/sources.list.d/*yarn*
 
-echo "[STEP] Updating system..."
+# Update system
 sudo apt-get update -yq
 sudo apt-get upgrade -yq
 
-echo "[STEP] Installing XFCE desktop + VNC..."
+# Desktop + VNC
 sudo apt-get install -yq --no-install-recommends \
     xfce4 xfce4-goodies tigervnc-standalone-server dbus-x11 \
     novnc websockify falkon xterm git
 
-echo "[STEP] Installing pentest tools..."
+# Pentest tools
 sudo apt-get install -yq --no-install-recommends \
     nmap sqlmap nikto gobuster wfuzz hydra john hashcat \
     netcat-openbsd tcpdump wireshark-common dirb dnsutils whois \
@@ -34,7 +29,7 @@ sudo apt-get install -yq --no-install-recommends \
 # Optional: SecLists (avoid 3GB)
 # git clone https://github.com/danielmiessler/SecLists.git ~/SecLists
 
-echo "[STEP] Configuring VNC..."
+# VNC config
 mkdir -p ~/.vnc
 cat > ~/.vnc/xstartup << 'EOF'
 #!/bin/bash
@@ -43,17 +38,16 @@ startxfce4 &
 EOF
 chmod +x ~/.vnc/xstartup
 
+# Create VNC password if missing
 if [ ! -f ~/.vnc/passwd ]; then
     echo "pentest" | vncpasswd -f > ~/.vnc/passwd
     chmod 600 ~/.vnc/passwd
 fi
 
-echo "[STEP] Cleaning old VNC sessions..."
+# Clean old sessions
 vncserver -kill :1 2>/dev/null || true
 rm -rf /tmp/.X*-lock /tmp/.X11-unix/X* || true
 
-echo "[STEP] Cleaning APT cache..."
+# Reduce Codespace size
 sudo apt-get clean
 sudo rm -rf /var/lib/apt/lists/*
-
-echo "[DONE] Post-create script completed successfully!"
