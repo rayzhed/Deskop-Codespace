@@ -1,6 +1,10 @@
 {
   "name": "Cyber Offensive Desktop",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+
+  "build": {
+    "dockerfile": "webtop.Dockerfile",
+    "context": ".devcontainer"
+  },
 
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
