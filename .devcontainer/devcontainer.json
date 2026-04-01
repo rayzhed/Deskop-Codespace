@@ -1,10 +1,10 @@
 {
   "name": "Codespace Desktop",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "features": {},
-  "postCreateCommand": "",
-  "postStartCommand": "",
-  "postAttachCommand": "bash .devcontainer/post-create.sh",
+
+  "postCreateCommand": "bash .devcontainer/bootstrap.sh",
+  "postAttachCommand": "bash -lc '.devcontainer/install-desktop.sh'",
+
   "forwardPorts": [6080],
   "portsAttributes": {
     "6080": {
@@ -12,6 +12,7 @@
       "onAutoForward": "openBrowser"
     }
   },
+
   "runArgs": [
     "--cap-add=NET_ADMIN"
   ]
