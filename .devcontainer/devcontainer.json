@@ -3,17 +3,17 @@
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
 
   "postCreateCommand": "bash .devcontainer/bootstrap.sh",
-  "postAttachCommand": "bash -lc '.devcontainer/install-desktop.sh'",
+  "postAttachCommand": "bash -lc '.devcontainer/start-webtop.sh'",
 
-  "forwardPorts": [6080],
+  "forwardPorts": [3000],
   "portsAttributes": {
-    "6080": {
-      "label": "noVNC",
+    "3000": {
+      "label": "Webtop Desktop",
       "onAutoForward": "openBrowser"
     }
   },
 
   "runArgs": [
-    "--cap-add=NET_ADMIN"
+    "--privileged"
   ]
 }
