@@ -2,6 +2,10 @@
   "name": "Codespace Desktop",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
 
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+
   "postCreateCommand": "bash .devcontainer/bootstrap.sh",
   "postAttachCommand": "bash -lc '.devcontainer/start-webtop.sh'",
 

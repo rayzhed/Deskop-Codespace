@@ -2,10 +2,8 @@
 
 echo "[INFO] Starting Webtop XFCE container..."
 
-# Stop old container if exists
 docker rm -f webtop 2>/dev/null || true
 
-# Start Webtop
 docker run -d \
   --name webtop \
   -p 3000:3000 \
