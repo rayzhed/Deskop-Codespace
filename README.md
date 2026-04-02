@@ -20,10 +20,11 @@ gh repo create cyber-desktop --private --push --source .
 #    Go to repo → Actions → "Build Cyber Desktop Image" → Run workflow
 #    Wait ~10 min for it to finish
 
-# 3. Enable fast mode
-bash enable-fast-mode.sh <your-username> <repo-name>
-git add -A && git commit -m "enable GHCR fast mode" && git push
-
+# 3. Enable fast mode (optional)
+# If you want to hardcode the prebuilt image path, use:
+#    bash enable-fast-mode.sh <your-username> <repo-name>
+# Otherwise the bootstrap script now auto-detects the repo and pulls the correct GHCR image.
+#
 # 4. Launch Codespace — done in 30s
 ```
 

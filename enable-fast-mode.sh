@@ -1,7 +1,7 @@
 #!/bin/bash
 # enable-fast-mode.sh
-# Run this ONCE after the GitHub Actions workflow has pushed the image.
-# It updates bootstrap.sh to pull from GHCR instead of building locally.
+# Optional helper for overriding the GHCR image path.
+# The bootstrap script now auto-detects the repository and pulls the correct GHCR image.
 #
 # Usage:
 #   1. Push the repo to GitHub
